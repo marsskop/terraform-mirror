@@ -75,11 +75,11 @@ provider_installation {
     required_version = ">= 0.13"
     }
     ```
-    - setup VPN to access registry.terraform.io and run
+    - make sure you have access to registry.terraform.io and run
     ```bash
     terraform providers mirror -platform=linux_amd64 mirror
     ```
-    - change VPN to access SberCloud and upload provider from mirror directory
+    - upload provider from the mirror directory
     ```bash
     curl -X POST -F file=@mirror/registry.terraform.io/rancher/rke/terraform-provider-rke_1.3.0_linux_amd64.zip https://${hostname}:${port}/providers/registry.terraform.io/rancher/rke/upload/
     ```
@@ -92,6 +92,18 @@ provider_installation {
     ```bash
     curl -X POST -F file=@terraform-provider-rke_1.4.0_linux_amd64.zip https://${hostname}:${port}/providers/registry.terraform.io/rancher/rke/upload/
     ```
+
+## 💥 But Why?
+Suppose you need:
+- a static mirror inside a network that does **not** have access to registry.terraform.io
+- some way to store and distribute your custom provider
+
+To work with providers uploaded to Terraform's official registry one needs Provider Network Mirror Protocol (as you do not have GPG signing keys for providers that are, well, not yours). Add an endpoint for uploading and deleting and you have a small mirror-registry in your hands.
+
+Repos of interest:
+- [Citizen](https://github.com/outsideris/citizen)
+- [Terralist](https://github.com/valentindeaconu/terralist)
+- [terraform-registry](https://github.com/nrkno/terraform-registry)
 
 ## ⚠️  License
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](https://www.tldrlegal.com/license/mit-license)
